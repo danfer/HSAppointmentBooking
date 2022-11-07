@@ -46,18 +46,18 @@ public class SlotsService : ISlotsService
         var appointmentsMaxDay = GetEndOfOpenAppointments();
 
         List<(DateTime From, DateTime To)> timeIntervals = new();
-   
-        var shifts = employee.Shifts!.Where(x => 
+
+        var shifts = employee.Shifts!.Where(x =>
             x.Ending < appointmentsMaxDay &&
             ((x.Starting <= _now && x.Ending > _now) || x.Starting > _now));
-        
-        foreach(var shift in shifts)
+
+        foreach (var shift in shifts)
         {
             var potentialAppointmentStart = shift.Starting;
-            var potentialAppointmentEnd = 
+            var potentialAppointmentEnd =
                 potentialAppointmentStart.AddMinutes(service.AppointmentTimeSpanInMin);
-            
-            for(int increment = 0;potentialAppointmentEnd <= shift.Ending;increment += _settings.RoundUpInMin)
+
+            for (int increment = 0; potentialAppointmentEnd <= shift.Ending; increment += _settings.RoundUpInMin)
             {
                 potentialAppointmentStart = shift.Starting.AddMinutes(increment);
                 potentialAppointmentEnd = potentialAppointmentStart.AddMinutes(service.AppointmentTimeSpanInMin);
@@ -72,7 +72,7 @@ public class SlotsService : ISlotsService
             x.Ending < appointmentsMaxDay &&
             ((x.Starting <= _now && x.Ending > _now) || x.Starting > _now)).ToArray();
 
-        foreach(var appointment in appointments)
+        foreach (var appointment in appointments)
         {
             DateTime appointmentStartWithRest = appointment.Starting.AddMinutes(-_settings.RestInMin);
             DateTime appointmentEndWithRest = appointment.Ending.AddMinutes(_settings.RestInMin);
@@ -86,7 +86,7 @@ public class SlotsService : ISlotsService
 
         var daySlotsList = new List<DaySlots>();
 
-        foreach(var day in uniqueDays)
+        foreach (var day in uniqueDays)
         {
             var startTimes = timeIntervals.Where(x => x.From.Date == day.Date).Select(x => x.From).ToArray();
             var daySlots = new DaySlots(day, startTimes);
