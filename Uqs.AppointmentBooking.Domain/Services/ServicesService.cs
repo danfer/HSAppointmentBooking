@@ -24,4 +24,15 @@ public class ServicesService : IServicesService
 
     public async Task<Service?> GetService(string id)
         => await _serviceRepository.GetActiveService(id);
+
+
+    //public Task<IEnumerable<Service>> GetActiveServices()
+    //{
+    //    throw new NotImplementedException();
+    //}
+
+    //public Task<Service?> GetService(string id)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }
