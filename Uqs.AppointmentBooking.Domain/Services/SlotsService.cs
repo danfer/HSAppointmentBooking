@@ -105,8 +105,16 @@ public class SlotsService : ISlotsService
     {
         var ticksInSpan = _roundingIntervalSpan.Ticks;
         return new DateTime((dt.Ticks + ticksInSpan - 1) 
-            / ticksInSpan * ticksInSpan, dt.Kind);
+             / ticksInSpan * ticksInSpan, dt.Kind);
     }
+    // So, I applied a simple change by mistake, on the returning value for belows method, 
+    // unit tests should let me know something is wrong!
+
+    //private DateTime RoundUpToNearest(DateTime dt)
+    //{
+    //    var ticksInSpan = _roundingIntervalSpan.Ticks;
+    //    return new DateTime();       
+    //}
 
     private bool IsPeriodIntersecting(DateTime fromT1, DateTime toT1, DateTime fromT2, DateTime toT2) 
         => fromT1 < toT2 && toT1 > fromT2;
